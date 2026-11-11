@@ -1,0 +1,46 @@
+name: Construir Chepe Estudio
+on:
+  push:
+    paths:
+      - 'ChepeEstudio_v*.zip'
+      - '.github/workflows/construir_chepeestudio.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Escoger el zip con el número más alto
+        run: |
+          Z=$(ls ChepeEstudio_v*.zip | sort -V | tail -1)
+          N=$(echo "$Z" | sed 's/[^0-9]//g')
+          echo "Usando $Z (versión $N)"
+          echo "N=$N" >> $GITHUB_ENV
+          unzip -o "$Z" -d proyecto
+      - name: Traer los sonidos reales (GeneralUser GS, uso libre)
+        run: |
+          mkdir -p proyecto/app/src/main/assets
+          curl -L --retry 3 -o proyecto/app/src/main/assets/banco.sf2 https://raw.githubusercontent.com/mrbumpy409/GeneralUser-GS/684543d5e5efaef08d02be50dcda8d552478fa60/GeneralUser-GS.sf2
+          ls -la proyecto/app/src/main/assets/banco.sf2
+          test $(stat -c%s proyecto/app/src/main/assets/banco.sf2) -gt 30000000
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.11.1
+      - name: Armar la app
+        working-directory: proyecto
+        run: gradle assembleRelease --no-daemon
+      - name: Copiar el instalador con su número
+        run: cp proyecto/app/build/outputs/apk/release/app-release.apk ChepeEstudio_v${{ env.N }}.apk
+      - name: Publicar para descargar
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: chepeestudio-v${{ env.N }}
+          name: Chepe Estudio ${{ env.N }}
+          files: ChepeEstudio_v${{ env.N }}.apk
+          make_latest: false
