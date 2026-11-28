@@ -74,6 +74,8 @@ public final class Grupos {
                     b("🛒", "Lista de compras", 0xFF00838F, "ComprasActivity"),
                     b("✍", "Escribir bien", 0xFF1565C0, "EscribirActivity"),
                     b("📊", "Cuentas (mini Excel)", 0xFF2E7D32, "HojaActivity")),
+            new Grupo("medir", "ChpMedir", 0xFF00695C,
+                    b("📏", "Tomar medidas", 0xFF00695C, "MedirActivity")),
     };
 
     /** El grupo de esta app (si es una de las apps sueltas). */

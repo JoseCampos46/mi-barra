@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [chpbar, chpinicio, recordatorios, calcu, nivel, radio, grabar, escan, gps, telefono, correo, cobro, notas]
+        app: [chpbar, chpinicio, medir, calcu]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -28,7 +28,7 @@ jobs:
           if [ "$A" != "chpbar" ]; then
             cp $M app/src/main/AndroidManifest.xml
             sed -i "s/applicationId 'co.jose.mibarra'/applicationId 'co.jose.x$A'/" app/build.gradle
-            printf "\nandroid { packaging { jniLibs { excludes += ['**/libvosk.so', '**/libjnidispatch.so'] } } }\n" >> app/build.gradle
+            if [ "$A" != "medir" ]; then printf "\nandroid { packaging { jniLibs { excludes += ['**/libvosk.so', '**/libjnidispatch.so'] } } }\n" >> app/build.gradle; fi
           fi
       - name: Armar
         working-directory: proyecto

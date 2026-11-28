@@ -436,6 +436,11 @@ public class InicioActivity extends Activity {
         float m = s * 0.0225f;
         c.drawRoundRect(m, m, s - m, s - m, s * 0.25f, s * 0.25f, p);
         p.setStyle(Paint.Style.FILL);
+        // Versión 48: si el dibujo es del mismo color del fondo (ej. 📍 rojo sobre rojo), va sobre un círculo blanco para que se vea
+        if (java.util.Arrays.asList("📍", "⏰", "🔳", "🎥", "📑", "📧", "🧾", "🎵", "📺", "🧹", "🗺").contains(emoji)) {
+            p.setColor(0xF2FFFFFF);
+            c.drawCircle(s / 2f, s / 2f, s * 0.36f, p);
+        }
         p.setColor(Color.WHITE);
         p.setTextSize(s * 0.56f);
         p.setTextAlign(Paint.Align.CENTER);

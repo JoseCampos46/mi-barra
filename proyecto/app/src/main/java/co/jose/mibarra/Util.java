@@ -64,6 +64,7 @@ public final class Util {
         if (c instanceof ClaudeActivity) return "Claude/Enviados";
         if (c instanceof GastosActivity) return "Gastos";
         if (c instanceof MedidasActivity) return "Medidas";
+        if (c instanceof MedirActivity) return "Medir";
         if (c instanceof SaludosActivity) return nombre.startsWith("Meme") ? "Memes" : "Saludos";
         if (c instanceof MiniCamaraService) return nombre.endsWith(".mp4") ? "Videos" : "Fotos";
         if (c instanceof CamaraActivity) return nombre.endsWith(".mp4") ? "Videos" : "Fotos";

@@ -148,6 +148,41 @@ public final class VozLocal {
         }).start();
     }
 
+    /** Versión 48 (ChpMedir): escucha SOLO números (lo demás lo bota) por unos segundos. */
+    static final String NUMEROS = "[\"cero\", \"uno\", \"un\", \"una\", \"dos\", \"tres\", \"cuatro\", \"cinco\", \"seis\", \"siete\", \"ocho\", \"nueve\", "
+            + "\"diez\", \"once\", \"doce\", \"trece\", \"catorce\", \"quince\", \"dieciséis\", \"diecisiete\", \"dieciocho\", \"diecinueve\", "
+            + "\"veinte\", \"veintiuno\", \"veintidós\", \"veintitrés\", \"veinticuatro\", \"veinticinco\", \"veintiséis\", \"veintisiete\", "
+            + "\"veintiocho\", \"veintinueve\", \"treinta\", \"cuarenta\", \"cincuenta\", \"sesenta\", \"setenta\", \"ochenta\", \"noventa\", "
+            + "\"cien\", \"ciento\", \"doscientos\", \"trescientos\", \"cuatrocientos\", \"quinientos\", \"seiscientos\", \"setecientos\", "
+            + "\"ochocientos\", \"novecientos\", \"mil\", \"y\", \"coma\", \"punto\", \"medio\", \"[unk]\"]";
+
+    static void escucharNumeros(Context c, int milis, Oido o) {
+        Context app = c.getApplicationContext();
+        new Thread(() -> {
+            try {
+                if (modelo == null) {
+                    try { LibVosk.setLogLevel(LogLevel.WARNINGS); } catch (Throwable ignored) {}
+                    modelo = new Model(carpeta(app).getAbsolutePath());
+                }
+                Recognizer r = new Recognizer(modelo, FRECUENCIA, NUMEROS);
+                SpeechService s = new SpeechService(r, FRECUENCIA);
+                h.post(() -> {
+                    parar();
+                    servicio = s;
+                    s.startListening(new RecognitionListener() {
+                        @Override public void onPartialResult(String json) { String t = leer(json, "partial"); if (!t.isEmpty()) o.parcial(t); }
+                        @Override public void onResult(String json) { String t = leer(json, "text"); if (!t.isEmpty()) o.frase(t); }
+                        @Override public void onFinalResult(String json) { String t = leer(json, "text"); if (!t.isEmpty()) o.frase(t); o.terminado(); }
+                        @Override public void onError(Exception e) { parar(); o.error("El micrófono falló"); }
+                        @Override public void onTimeout() { parar(); o.terminado(); }
+                    }, milis);
+                });
+            } catch (Throwable e) {
+                h.post(() -> o.error("No se pudo abrir el español"));
+            }
+        }).start();
+    }
+
     static void parar() {
         SpeechService s = servicio;
         servicio = null;

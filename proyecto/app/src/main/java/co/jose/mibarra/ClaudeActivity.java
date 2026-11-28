@@ -52,7 +52,7 @@ public class ClaudeActivity extends Base {
         l.setPadding(dp(12), dp(10), dp(12), dp(12));
 
         TextView para = new TextView(this);
-        para.setText("Para:  Claude  ·  proyecto ChpBar");
+        para.setText("Para:  Claude  ·  proyecto " + getApplicationInfo().loadLabel(getPackageManager()));
         para.setTextSize(17);
         para.setTypeface(Typeface.DEFAULT_BOLD);
         para.setTextColor(Color.BLACK);
@@ -108,6 +108,11 @@ public class ClaudeActivity extends Base {
         sv.addView(l);
         setContentView(sv);
         pintarLista();
+        // Versión 48: otra pantalla (ej. ChpMedir) puede llegar con el asunto, el mensaje y pedir la foto de una vez
+        String as0 = getIntent().getStringExtra("asunto"), me0 = getIntent().getStringExtra("mensaje");
+        if (as0 != null && asunto.getText().length() == 0) asunto.setText(as0);
+        if (me0 != null && mensaje.getText().length() == 0) mensaje.setText(me0);
+        if (b == null && getIntent().getBooleanExtra("foto", false)) tomarFoto();
     }
 
     private EditText campo(String pista, int lineas) {
