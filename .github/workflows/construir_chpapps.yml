@@ -1,0 +1,64 @@
+name: Construir apps sueltas Chp (sacadas de ChpBar)
+on:
+  push:
+    paths:
+      - 'MiBarra_v*.zip'
+      - '.github/workflows/construir_chpapps.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - { id: recordatorios, nombre: ChpRecordatorios, manifiesto: app/chprecordatorios/AndroidManifest.xml }
+          - { id: calcu, nombre: ChpCalcu, manifiesto: app/variantes/calcu/AndroidManifest.xml }
+          - { id: nivel, nombre: ChpNivel, manifiesto: app/variantes/nivel/AndroidManifest.xml }
+          - { id: radio, nombre: ChpRadio, manifiesto: app/variantes/radio/AndroidManifest.xml }
+          - { id: grabar, nombre: ChpGrabar, manifiesto: app/variantes/grabar/AndroidManifest.xml }
+          - { id: escan, nombre: ChpEscan, manifiesto: app/variantes/escan/AndroidManifest.xml }
+          - { id: gps, nombre: ChpGPS, manifiesto: app/variantes/gps/AndroidManifest.xml }
+          - { id: telefono, nombre: ChpTelefono, manifiesto: app/variantes/telefono/AndroidManifest.xml }
+          - { id: correo, nombre: ChpCorreo, manifiesto: app/variantes/correo/AndroidManifest.xml }
+          - { id: cobro, nombre: ChpCobro, manifiesto: app/variantes/cobro/AndroidManifest.xml }
+          - { id: notas, nombre: ChpNotas, manifiesto: app/variantes/notas/AndroidManifest.xml }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Escoger el zip de ChpBar con el número más alto
+        run: |
+          Z=$(ls MiBarra_v*.zip | sort -V | tail -1)
+          N=$(echo "$Z" | sed 's/[^0-9]//g')
+          echo "Usando $Z (versión $N)"
+          echo "N=$N" >> $GITHUB_ENV
+          unzip -o "$Z" -d proyecto
+      - name: Convertir en ${{ matrix.nombre }}
+        working-directory: proyecto
+        run: |
+          test -f ${{ matrix.manifiesto }}
+          cp ${{ matrix.manifiesto }} app/src/main/AndroidManifest.xml
+          sed -i "s/applicationId 'co.jose.mibarra'/applicationId 'co.jose.chp${{ matrix.id }}'/" app/build.gradle
+          printf "\nandroid { packaging { jniLibs { excludes += ['**/libvosk.so', '**/libjnidispatch.so'] } } }\n" >> app/build.gradle
+          grep -n applicationId app/build.gradle
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.11.1
+      - name: Armar la app
+        working-directory: proyecto
+        run: gradle assembleRelease --no-daemon
+      - name: Copiar el instalador con su número
+        run: cp proyecto/app/build/outputs/apk/release/app-release.apk ${{ matrix.nombre }}_v${{ env.N }}.apk
+      - name: Publicar para descargar
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: chp${{ matrix.id }}-v${{ env.N }}
+          name: ${{ matrix.nombre }} ${{ env.N }}
+          files: ${{ matrix.nombre }}_v${{ env.N }}.apk
+          make_latest: false
