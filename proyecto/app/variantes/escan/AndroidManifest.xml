@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Versión 48: manifiesto de ChpEscán (app suelta sacada de ChpBar). Lo genera el taller. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Versión 46: permiso propio para que solo ChpInicio (firmada igual) hable con ChpBar -->
+    <uses-permission android:name="co.jose.mibarra.PUERTA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <!-- Versión 17 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- Versión 37: Mi Teléfono -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <!-- Versión 18 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <queries>
+        <package android:name="co.jose.mibarra" />
+        <package android:name="co.jose.chprecordatorios" />
+        <package android:name="co.jose.chpcalcu" />
+        <package android:name="co.jose.chpnivel" />
+        <package android:name="co.jose.chpradio" />
+        <package android:name="co.jose.chpgrabar" />
+        <package android:name="co.jose.chpescan" />
+        <package android:name="co.jose.chpgps" />
+        <package android:name="co.jose.chptelefono" />
+        <package android:name="co.jose.chpcorreo" />
+        <package android:name="co.jose.chpcobro" />
+        <package android:name="co.jose.chpnotas" />
+        <package android:name="co.jose.micontrol" />
+        <package android:name="co.jose.chpinicio" />
+        <package android:name="co.jose.mischats" />
+        <package android:name="com.google.android.gm" />
+        <package android:name="com.microsoft.office.outlook" />
+        <package android:name="com.android.chrome" />
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+        <package android:name="com.acapelagroup.android.tts" />
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.APP_CALCULATOR" />
+        </intent>
+        <package android:name="com.miui.calculator" />
+        <package android:name="co.jose.playdoly" />
+        <package android:name="com.google.android.calculator" />
+        <package android:name="com.android.calculator2" />
+        <package android:name="com.motorola.calculator" />
+        <package android:name="com.sec.android.app.popupcalculator" />
+        <package android:name="com.whatsapp" />
+        <package android:name="com.whatsapp.w4b" />
+        <package android:name="com.ubercab" />
+        <package android:name="com.didiglobal.passenger" />
+        <package android:name="sinet.startup.inDriver" />
+        <package android:name="com.cabify.rider" />
+        <package android:name="com.picap.pasajero" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="uber" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <package android:name="com.google.android.apps.docs" />
+        <package android:name="com.google.android.apps.maps" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="geo" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <intent>
+            <action android:name="android.media.action.VIDEO_CAPTURE" />
+        </intent>
+        <intent>
+            <action android:name="android.speech.action.RECOGNIZE_SPEECH" />
+        </intent>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SET_ALARM" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SHOW_ALARMS" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_escan"
+        android:label="ChpEscán"
+        android:largeHeap="true"
+        android:theme="@android:style/Theme.DeviceDefault.Light">
+        <activity android:name=".GrupoActivity" android:exported="true" android:label="ChpEscán"
+            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar" android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" android:process=":ui" android:exported="false" />
+        <activity android:name=".ComprasActivity" android:process=":ui" android:exported="false"
+            android:label="Lista de compras" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".CalculadoraActivity" android:process=":ui" android:exported="false"
+            android:label="Calculadora de obra" android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".NotasActivity" android:process=":ui" android:exported="false"
+            android:label="Cuaderno" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".HojaActivity" android:process=":ui" android:exported="false"
+            android:label="Cuentas" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".CobroActivity" android:process=":ui" android:exported="false"
+            android:label="Cuenta de cobro" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".PrintActivity" android:process=":ui" android:exported="false" android:label="Imprimir" />
+        <activity android:name=".GrabarActivity" android:process=":ui" android:exported="false"
+            android:excludeFromRecents="true" android:taskAffinity="" android:noHistory="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".RecorridoActivity" android:process=":ui" android:exported="false"
+            android:label="Recorrido" android:launchMode="singleTop" />
+        <activity android:name=".AquiEstoyActivity" android:process=":ui" android:exported="false"
+            android:excludeFromRecents="true" android:noHistory="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".ParadasActivity" android:process=":ui" android:exported="false"
+            android:label="ChpBar · Rutas" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".RecordatoriosActivity" android:process=":ui" android:exported="false"
+            android:label="Recordatorios" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".CodigoActivity" android:process=":ui" android:exported="false"
+            android:label="Escanear código" android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity android:name=".ControlTvActivity" android:process=":ui" android:exported="false"
+            android:label="Control TV" android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
+        <activity android:name=".CuentaActivity" android:process=":ui" android:exported="false"
+            android:label="Cuenta y recibos" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".AbonosActivity" android:process=":ui" android:exported="false"
+            android:label="Abonos de la semana" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".RadioRelojActivity" android:process=":ui" android:exported="false"
+            android:label="Radio reloj" android:launchMode="singleTop" android:screenOrientation="sensorLandscape"
+            android:showWhenLocked="true" android:turnScreenOn="false"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity android:name=".RelojActivity" android:process=":ui" android:exported="false"
+            android:label="Reloj de cocina" android:launchMode="singleTop" android:showWhenLocked="true" android:turnScreenOn="true" />
+        <service android:name=".RelojService" android:process=":ui" android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="Temporizador de cocina y radio" />
+        </service>
+        <activity android:name=".MedidasActivity" android:process=":ui" android:exported="false"
+            android:label="Foto con medidas" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".AppsActivity" android:process=":ui" android:exported="false"
+            android:label="Mis apps de la A a la Z" />
+        <activity android:name=".NocheActivity" android:process=":ui" android:exported="false" android:launchMode="singleTop"
+            android:label="Reloj de noche" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            android:showWhenLocked="true" android:excludeFromRecents="true" />
+        <activity android:name=".ChequeoActivity" android:process=":ui" android:exported="false"
+            android:label="Antes de salir" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ProveedoresActivity" android:process=":ui" android:exported="false"
+            android:label="Proveedores" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".EnciclopediaActivity" android:process=":ui" android:exported="false"
+            android:label="Enciclopedia" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".EscanerActivity" android:process=":ui" android:exported="false"
+            android:label="Escáner" android:screenOrientation="portrait" />
+        <activity android:name=".SaludosActivity" android:process=":ui" android:exported="false"
+            android:label="Saludos y memes" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".GrabadoraActivity" android:process=":ui" android:exported="false"
+            android:label="Grabadora" android:launchMode="singleTop" />
+        <activity android:name=".RecortarActivity" android:process=":ui" android:exported="false"
+            android:label="Recortar grabación" android:screenOrientation="portrait" />
+        <activity android:name=".EscribirActivity" android:process=":ui" android:exported="false"
+            android:label="Escribir bien" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".OrganizarActivity" android:exported="false"
+            android:excludeFromRecents="true" android:taskAffinity="co.jose.mibarra.organizar"
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".PantallazoActivity" android:process=":ui" android:exported="false"
+            android:label="Pantallazo" android:screenOrientation="portrait" />
+        <activity android:name=".ClaudeActivity" android:process=":ui" android:exported="false"
+            android:label="Claude" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".LlaveActivity" android:process=":ui" android:exported="false"
+            android:label="Llave de Gemini" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".BloqueosActivity" android:process=":ui" android:exported="false"
+            android:label="Bloqueos" android:launchMode="singleTop" />
+        <activity android:name=".GastosActivity" android:process=":ui" android:exported="false"
+            android:label="Gastos hormiga" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".NivelActivity" android:process=":ui" android:exported="false"
+            android:label="Nivel" android:screenOrientation="portrait" />
+        <service android:name=".GrabadoraService" android:process=":ui" android:exported="false"
+            android:foregroundServiceType="microphone" />
+        <activity android:name=".TablaActivity" android:process=":ui" android:exported="false"
+            android:label="Tabla de obra" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".GpsActivity" android:process=":ui" android:exported="false" android:launchMode="singleTop"
+            android:label="ChpBar GPS" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".BluetoothActivity" android:process=":ui" android:exported="false"
+            android:label="Bluetooth" android:screenOrientation="portrait" />
+        <activity android:name=".LugaresActivity" android:process=":ui" android:exported="false"
+            android:label="Mis lugares" android:launchMode="singleTop" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".SenalActivity" android:process=":ui" android:exported="false" android:label="Señal y velocidad" />
+        <activity android:name=".WifiActivity" android:process=":ui" android:exported="false" android:label="Wi‑Fi" />
+        <activity android:name=".RadioActivity" android:process=":ui" android:exported="false" android:label="Radio" android:launchMode="singleTop" />
+        <activity android:name=".TvActivity" android:process=":ui" android:exported="false" android:label="TV gratis" />
+        <activity android:name=".ReproductorActivity" android:process=":ui" android:exported="false" android:label="Reproductor" android:launchMode="singleTop" />
+        <service android:name=".SonidoService" android:process=":ui" android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+        <activity android:name=".VerActivity" android:process=":ui" android:exported="false"
+            android:theme="@android:style/Theme.Black.NoTitleBar" />
+        <activity android:name=".CamaraActivity" android:process=":ui" android:exported="false"
+            android:screenOrientation="portrait" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <service android:name=".RecorridoService" android:exported="false"
+            android:foregroundServiceType="location" />
+        <service android:name=".Teselas$Pantallazo" android:exported="false" android:label="Pantallazo"
+            android:icon="@android:drawable/ic_menu_camera" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+        </service>
+        <service android:name=".Teselas$Word" android:exported="false" android:label="Copiar a Word"
+            android:icon="@android:drawable/ic_menu_save" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+        </service>
+        <service android:name=".Teselas$Grabar" android:exported="false" android:label="Grabar pantalla"
+            android:icon="@android:drawable/presence_video_online" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+        </service>
+        <service android:name=".Teselas$Luz" android:exported="false" android:label="Luz azul"
+            android:icon="@android:drawable/ic_menu_view" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+        </service>
+        <service android:name=".Teselas$Menu" android:exported="false" android:label="Menú ChpBar"
+            android:icon="@android:drawable/ic_menu_sort_by_size" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+        </service>
+        <service android:name=".GrabarService" android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
+        <activity android:name=".PreciosActivity" android:process=":ui" android:exported="false"
+            android:label="Buscar precio" android:launchMode="singleTop" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".CorreosActivity" android:process=":ui" android:exported="false"
+            android:label="Mis Correos" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".TransporteActivity" android:process=":ui" android:exported="false"
+            android:label="Transporte" android:launchMode="singleTop" />
+        <activity android:name=".MiniCamaraActivity" android:exported="false" android:excludeFromRecents="true"
+            android:noHistory="true" android:taskAffinity="" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <service android:name=".MiniCamaraService" android:exported="false"
+            android:foregroundServiceType="camera|microphone" />
+        <activity android:name=".tel.MarcadorActivity" android:exported="false" android:label="Mi Teléfono"
+            android:launchMode="singleTask" android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".tel.LlamadaActivity" android:exported="false"
+            android:launchMode="singleInstance" android:excludeFromRecents="true"
+            android:screenOrientation="portrait" android:showWhenLocked="true" android:turnScreenOn="true"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
+        <service android:name=".tel.GrabandoService" android:exported="false"
+            android:foregroundServiceType="microphone" />
+        <receiver android:name=".tel.AccionReceiver" android:exported="false" />
+    </application>
+</manifest>

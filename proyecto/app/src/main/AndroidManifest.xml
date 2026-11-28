@@ -47,6 +47,17 @@
 
     <queries>
         <package android:name="co.jose.chprecordatorios" />
+        <package android:name="co.jose.chpcalcu" />
+        <package android:name="co.jose.chpnivel" />
+        <package android:name="co.jose.chpradio" />
+        <package android:name="co.jose.chpgrabar" />
+        <package android:name="co.jose.chpescan" />
+        <package android:name="co.jose.chpgps" />
+        <package android:name="co.jose.chptelefono" />
+        <package android:name="co.jose.chpcorreo" />
+        <package android:name="co.jose.chpcobro" />
+        <package android:name="co.jose.chpnotas" />
+        <package android:name="co.jose.micontrol" />
         <package android:name="co.jose.chpinicio" />
         <package android:name="co.jose.mischats" />
         <package android:name="com.google.android.gm" />
@@ -261,10 +272,7 @@
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter><action android:name="android.net.VpnService" /></intent-filter>
         </service>
-        <service android:name=".FiltroLlamadas" android:process=":ui" android:exported="true"
-            android:permission="android.permission.BIND_SCREENING_SERVICE">
-            <intent-filter><action android:name="android.telecom.CallScreeningService" /></intent-filter>
-        </service>
+        <!-- Versión 48: ChpBar ya no es «filtro de llamadas» (bloqueaba los números no guardados) -->
         <activity android:name=".NivelActivity" android:process=":ui" android:exported="false"
             android:label="Nivel" android:screenOrientation="portrait" />
         <service android:name=".GrabadoraService" android:process=":ui" android:exported="false"

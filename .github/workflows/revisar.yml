@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [chpbar, chpinicio, chprecordatorios]
+        app: [chpbar, chpinicio, recordatorios, calcu, nivel, radio, grabar, escan, gps, telefono, correo, cobro, notas]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -21,10 +21,15 @@ jobs:
       - name: Preparar variante
         working-directory: proyecto
         run: |
-          if [ "${{ matrix.app }}" != "chpbar" ]; then
-            cp app/${{ matrix.app }}/AndroidManifest.xml app/src/main/AndroidManifest.xml
-            sed -i "s/applicationId 'co.jose.mibarra'/applicationId 'co.jose.${{ matrix.app }}'/" app/build.gradle
+          A=${{ matrix.app }}
+          if [ "$A" = "chpinicio" ]; then M=app/chpinicio/AndroidManifest.xml
+          elif [ "$A" = "recordatorios" ]; then M=app/chprecordatorios/AndroidManifest.xml
+          elif [ "$A" != "chpbar" ]; then M=app/variantes/$A/AndroidManifest.xml; fi
+          if [ "$A" != "chpbar" ]; then
+            cp $M app/src/main/AndroidManifest.xml
+            sed -i "s/applicationId 'co.jose.mibarra'/applicationId 'co.jose.x$A'/" app/build.gradle
+            printf "\nandroid { packaging { jniLibs { excludes += ['**/libvosk.so', '**/libjnidispatch.so'] } } }\n" >> app/build.gradle
           fi
       - name: Armar
         working-directory: proyecto
-        run: gradle assembleRelease --no-daemon
+        run: gradle assembleRelease --no-daemon && ls -la app/build/outputs/apk/release/

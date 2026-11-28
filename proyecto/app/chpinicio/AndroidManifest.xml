@@ -21,6 +21,17 @@
 
     <queries>
         <package android:name="co.jose.chprecordatorios" />
+        <package android:name="co.jose.chpcalcu" />
+        <package android:name="co.jose.chpnivel" />
+        <package android:name="co.jose.chpradio" />
+        <package android:name="co.jose.chpgrabar" />
+        <package android:name="co.jose.chpescan" />
+        <package android:name="co.jose.chpgps" />
+        <package android:name="co.jose.chptelefono" />
+        <package android:name="co.jose.chpcorreo" />
+        <package android:name="co.jose.chpcobro" />
+        <package android:name="co.jose.chpnotas" />
+        <package android:name="co.jose.micontrol" />
         <package android:name="co.jose.mibarra" />
         <package android:name="co.jose.mischats" />
         <package android:name="com.google.android.gm" />

@@ -63,7 +63,9 @@ public class BarraService extends AccessibilityService {
         wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         h = new Handler(Looper.getMainLooper());
         prefs = getSharedPreferences("barra_servicio", MODE_PRIVATE);
-        aplicarFiltro(prefs.getInt("luz", 0));
+        // Versión 48: la luz azul (pantalla amarilla) nunca se prende sola al arrancar; solo cuando él la toca
+        prefs.edit().putInt("luz", 0).apply();
+        aplicarFiltro(0);
         instancia = this;
         // Versión 34: el radio reloj (que corre aparte) avisa por aquí que esconda o muestre el botón flotante
         try {
@@ -193,6 +195,7 @@ public class BarraService extends AccessibilityService {
                     break;
                 }
                 case "menu": abrirMenuAyuda(); break;
+                case "luzApagar": prefs.edit().putInt("luz", 0).apply(); aplicarFiltro(0); break;   // versión 48
                 case "cerrarApps": cerrarApps(); break;
                 case "bloquear": if (android.os.Build.VERSION.SDK_INT >= 28) performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN); break;
                 case "poder": performGlobalAction(GLOBAL_ACTION_POWER_DIALOG); break;
@@ -261,7 +264,7 @@ public class BarraService extends AccessibilityService {
         g.setShape(GradientDrawable.OVAL);
         g.setStroke(Util.dp(this, 2), Color.WHITE);
         botonAyuda.setBackground(g);
-        botonAyuda.setText(graba ? "⏹" : "✦");
+        botonAyuda.setText(graba ? "⏹" : filtro != null ? "🌙" : "✦");   // versión 48: 🌙 = luz azul prendida
         botonAyuda.setTextSize(graba ? 22 : 24);
         botonAyuda.setAlpha(escondido ? 0.85f : prefs.getInt("botonOpaco", 92) / 100f);
         // Versión 18: mientras graba la pantalla, el botón no sale en el video (se para desde la barra de arriba)
@@ -1784,6 +1787,9 @@ public class BarraService extends AccessibilityService {
 
     private void abrir(Intent i) {
         cerrarPanel();
+        // Versión 48: si la herramienta ya salió como app suelta e instalada, se abre allá
+        Intent gr = Grupos.desviar(this, i);
+        if (gr != null) { try { startActivity(gr); } catch (Exception e) { aviso("No se pudo abrir"); } return; }
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (i.getComponent() != null && getPackageName().equals(i.getComponent().getPackageName()))
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);   // v43: vuelve la misma herramienta, no una nueva
@@ -1817,6 +1823,7 @@ public class BarraService extends AccessibilityService {
         if (pct <= 0) {
             quitar(filtro);
             filtro = null;
+            pintarBotonAyuda();
             return;
         }
         int a = Math.round(pct / 100f * 200);
@@ -1831,6 +1838,7 @@ public class BarraService extends AccessibilityService {
             wm.addView(filtro, p);
         }
         filtro.setBackgroundColor(color);
+        pintarBotonAyuda();   // versión 48: el botón muestra la 🌙 mientras está prendida
     }
 
     // ---------------- Pantallazo e imprimir ----------------

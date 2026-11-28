@@ -190,6 +190,9 @@ public class InicioActivity extends Activity {
 
     private Item herr(String id, String emoji, String nombre, int color, Runnable r) {
         Item it = new Item();
+        // Versión 48: si la herramienta ya salió como app suelta e instalada, no se repite: sale la app con su ícono
+        String suelta = Grupos.paqueteDeHerramienta(id);
+        if (suelta != null && Grupos.instalada(this, suelta)) { it.clave = "mb:" + id; it.nombre = nombre; it.abrir = r; return it; }
         color = vivo(color, id);   // versión 18: colores fuertes para encontrarlas rápido
         it.clave = "mb:" + id; it.emoji = emoji; it.nombre = chp(nombre); it.color = color; it.abrir = r; it.nuestra = true;
         it.icono = new BitmapDrawable(getResources(), iconoEmoji(emoji, color));
@@ -204,22 +207,24 @@ public class InicioActivity extends Activity {
         return "Chp" + Character.toUpperCase(n.charAt(0)) + n.substring(1);
     }
 
-    /** Versión 47: el letrero debajo del ícono, corto para que se lea grande. El nombre completo sirve para buscar. */
+    /** Versión 47: el letrero debajo del ícono, con «Chp» adelante pero corto para que se lea entero
+     *  (ChpRecordatorios → ChpRecord, ChpCalculadora → ChpCalcu). El nombre completo sirve para buscar. */
     static String corto(String n) {
         if (n == null) return "";
         String r = n.trim();
-        if (r.length() > 3 && r.regionMatches(true, 0, "Chp", 0, 3)) r = r.substring(3).trim();
-        if (r.isEmpty()) return n;
+        if (r.length() <= 9 || !r.regionMatches(true, 0, "Chp", 0, 3)) return r;
+        String resto = r.substring(3).trim();
         String[][] dic = {{"Recordatorios", "Record"}, {"Calculadora", "Calcu"}, {"Grabadora", "Grabar"}, {"Cuenta de cobro", "Cobro"},
-                {"Enciclopedia", "Enciclo"}, {"Radio reloj", "Radio R"}, {"Reloj cocina", "Cocina"}, {"Mm ↔ pulgadas", "Pulgadas"},
-                {"Grados techo", "Grados"}, {"Foto medidas", "Medidas"}, {"Tiempo pantalla", "Pantalla"}, {"Grabar pantalla", "Video P"},
+                {"Enciclopedia", "Enciclo"}, {"Radio reloj", "RadioR"}, {"Reloj cocina", "Cocina"}, {"Mm ↔ pulgadas", "Pulgas"},
+                {"Grados techo", "Grados"}, {"Foto medidas", "Medidas"}, {"Tiempo pantalla", "Tiempo"}, {"Grabar pantalla", "VideoP"},
                 {"Escanear QR", "QR"}, {"Antes de salir", "Salir"}, {"Cerca de mí", "Cerca"}, {"Ajustes Inicio", "Ajustes"},
                 {"Tabla de obra", "Tabla"}, {"Señal y velocidad", "Señal"}, {"Cerrar apps", "Cerrar"}, {"Buscar precios", "Precios"},
-                {"Imprimir bajando", "Imprimir B"}, {"Imprimir pantalla", "Imprimir"}, {"Botón flotante", "Botón"}, {"Escribir bien", "Escribir"},
-                {"Gastos hormiga", "Gastos"}, {"Proyectar pantalla", "Proyectar"}, {"Ojo de puerta", "Ojo"}, {"Lista de compras", "Compras"}};
-        for (String[] d : dic) if (d[0].equalsIgnoreCase(r)) return d[1];
-        if (r.length() > 10) r = r.substring(0, 9).trim() + ".";
-        return r;
+                {"Imprimir bajando", "ImpBaja"}, {"Imprimir pantalla", "Imprimir"}, {"Botón flotante", "Botón"}, {"Escribir bien", "Escribe"},
+                {"Gastos hormiga", "Gastos"}, {"Proyectar pantalla", "Proyecta"}, {"Ojo de puerta", "Ojo"}, {"Lista de compras", "Compras"},
+                {"Bloquear", "Bloqueo"}, {"Bluetooth", "Blue"}, {"Comercial", "Comer"}, {"Correos", "Correo"}, {"Teléfono", "Teléf"},
+                {"Cuaderno", "Notas"}, {"Linterna", "Luz"}, {"Escáner", "Escán"}, {"Proveedores", "Provee"}, {"Reproductor", "Audios"}};
+        for (String[] d : dic) if (d[0].equalsIgnoreCase(resto)) return "Chp" + d[1];
+        return "Chp" + (resto.length() > 6 ? resto.substring(0, 6) : resto);
     }
 
     private static final int[] VIVOS = {0xFFE53935, 0xFFD81B60, 0xFF8E24AA, 0xFF3949AB, 0xFF1E88E5, 0xFF00ACC1,
@@ -243,6 +248,9 @@ public class InicioActivity extends Activity {
             // Versión 43: cada herramienta en su propia tarea (como una app de fuera). Si ya estaba abierta,
             // vuelve la MISMA, tal como la dejó; solo se cierra con la ✕.
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        // Versión 48: si la herramienta ya salió como app suelta (ChpCalcu, ChpGPS…), se abre allá
+        Intent gr = Grupos.desviar(this, i);
+        if (gr != null) { try { super.startActivity(gr, opciones); } catch (Exception e) { aviso("No se pudo abrir"); } return; }
         // Versión 46: en ChpInicio, las herramientas se abren en ChpBar (otra app)
         Intent p = Puerta.desviar(this, i, "actividad");
         if (p != null) { abrirPuerta(p); return; }
@@ -348,7 +356,8 @@ public class InicioActivity extends Activity {
         herr("transporte", "🚕", "Transporte", 0xFFFFB300, abrirAct(TransporteActivity.class));
         herr("imprimirlargo", "📜", "Imprimir bajando", 0xFF1E88E5, () -> accionBarra("imprimirLargo"));
         herr("imprimir", "🖨", "Imprimir pantalla", 0xFF3949AB, () -> accionBarra("imprimir"));
-        herr("botonflotante", "🟠", "Botón flotante", 0xFFFB8C00, this::reactivarBoton);
+        herr("botonflotante", "◉", "Botón flotante", 0xFFFB8C00, this::reactivarBoton);   // versión 48: símbolo blanco
+        herr("chpbar", "☰", "ChpBar", 0xFF1F6FEB, () -> accionBarra("menu"));   // versión 48: para encontrar ChpBar en el buscador
         // Versión 22
         herr("linterna", "🔦", "Linterna", 0xFFFBC02D, this::linterna);
         herr("juegos", "🎮", "Play Doly", 0xFF7B1FA2, this::abrirPlayDoly);
@@ -356,14 +365,14 @@ public class InicioActivity extends Activity {
         herr("escribir", "✍️", "Escribir bien", 0xFF1565C0, abrirAct(EscribirActivity.class));
         // Versión 25
         // Versión 35: un solo botón para bloquear (WhatsApp o llamadas)
-        herr("bloqwa", "🚫", "Bloquear", 0xFFC62828, this::bloquear);
+        herr("bloqwa", "⊘", "Bloquear", 0xFFC62828, this::bloquear);   // versión 48: símbolo blanco (el 🚫 rojo no se veía)
         herr("gastos", "🐜", "Gastos hormiga", 0xFFEF6C00, abrirAct(GastosActivity.class));
         herr("proyectar", "📡", "Proyectar pantalla", 0xFF0277BD, () -> proyectar(this));
         // Versión 36
         herr("correos", "📧", "Mis Correos", 0xFFC62828, abrirAct(CorreosActivity.class));
         herr("telefono", "📞", "Mi Teléfono", 0xFF2E7D32, () -> abrirMiTelefono(this));
         // Versión 44: botón Claude (cuaderno tipo correo → paquete para el chat del proyecto)
-        herr("claude", "✉", "Carta Claude", 0xFFC15F3C, abrirAct(ClaudeActivity.class));   // versión 47: para no confundirla con la app Claude
+        herr("claude", "✉", "Claude", 0xFFC15F3C, abrirAct(ClaudeActivity.class));
     }
 
     /** Versión 37: Mi Teléfono vive dentro de Mi Barra (marcador, contestador y grabación). Mis Chats queda solo para WhatsApp. */
@@ -2302,6 +2311,7 @@ public class InicioActivity extends Activity {
 
     private void ajustes() {
         List<String> ops = new ArrayList<>(Arrays.asList(
+                "🌙 Quitar luz amarilla (apagar la luz azul)",
                 "🏠 Poner Mi Barra como pantalla principal",
                 "↩ Volver a poner lo que quité de la pantalla",
                 "🖼 Fondo: " + (prefs.getBoolean("fondoFoto", false) ? "mi foto (toque para volver al de Mi Barra)" : "Mi Barra (toque para usar una foto mía)"),
@@ -2309,7 +2319,9 @@ public class InicioActivity extends Activity {
                 "⌨ Teclado Mi Barra",
                 "♿ Activar Mi Barra en Accesibilidad (pantallazo, Word, grabar)",
                 (new java.io.File(getFilesDir(), "reloj_bloqueo_no").exists() ? "🌙 Prender" : "🌙 Apagar") + " el reloj en la pantalla de bloqueo"));
-        new AlertDialog.Builder(this).setTitle("⚙ Ajustes de Inicio").setItems(ops.toArray(new String[0]), (d, w) -> {
+        new AlertDialog.Builder(this).setTitle("⚙ Ajustes de Inicio").setItems(ops.toArray(new String[0]), (d, w0) -> {
+            if (w0 == 0) { accionBarra("luzApagar"); aviso("🌙 Luz amarilla apagada"); return; }   // versión 48
+            int w = w0 - 1;
             switch (w) {
                 case 0: ajuste(Settings.ACTION_HOME_SETTINGS); aviso("Escoja «Mi Barra Inicio»"); break;
                 case 1: restaurar(); break;
