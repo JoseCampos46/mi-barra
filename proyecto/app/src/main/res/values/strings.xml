@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ChpBar</string>
+    <string name="desc">Muestra una pestañita en el borde izquierdo con atajos: pantallazo, grabar pantalla, copiar a Word, imprimir, volumen, apagar, Wi-Fi, datos, luz azul, calculadora y lista de compras. No envía nada a internet.</string>
+</resources>

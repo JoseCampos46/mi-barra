@@ -1,0 +1,2 @@
+Lista de palabras: FrequencyWords (Hermit Dave), basada en OpenSubtitles 2018. Licencia CC-BY-SA 4.0.
+https://github.com/hermitdave/FrequencyWords

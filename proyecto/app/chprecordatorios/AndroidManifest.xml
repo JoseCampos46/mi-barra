@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Versión 47: manifiesto de ChpRecordatorios (todas las alarmas, app aparte de ChpBar).
+     El taller (GitHub) lo pone en lugar del de ChpBar y cambia el applicationId a co.jose.chprecordatorios. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="co.jose.mibarra.PUERTA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <queries>
+        <package android:name="co.jose.mibarra" />
+    </queries>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_record"
+        android:label="ChpRecordatorios"
+        android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        <activity android:name=".AlarmasActivity" android:exported="true"
+            android:label="ChpRecordatorios" android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SuenaActivity" android:exported="false"
+            android:label="Alarma" android:launchMode="singleTop" android:showWhenLocked="true" android:turnScreenOn="true"
+            android:excludeFromRecents="true" android:taskAffinity="co.jose.chprecordatorios.suena"
+            android:screenOrientation="portrait" />
+        <receiver android:name=".Alarmas$Receptor" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".Alarmas$Sonido" android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="Alarma de recordatorios y medicamentos" />
+        </service>
+        <provider android:name=".RecordProvider" android:authorities="co.jose.chprecordatorios.datos"
+            android:exported="true" android:readPermission="co.jose.mibarra.PUERTA" />
+        <activity android:name=".EscanerActivity" android:exported="false"
+            android:label="Escáner" android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.DeviceDefault.Light" />
+        <activity android:name=".ClaudeActivity" android:exported="false"
+            android:label="Claude" android:windowSoftInputMode="adjustResize"
+            android:theme="@android:style/Theme.DeviceDefault.Light" />
+    </application>
+</manifest>
