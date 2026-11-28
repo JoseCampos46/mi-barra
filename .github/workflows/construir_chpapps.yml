@@ -26,6 +26,7 @@ jobs:
           - { id: correo, nombre: ChpCorreo, manifiesto: app/variantes/correo/AndroidManifest.xml }
           - { id: cobro, nombre: ChpCobro, manifiesto: app/variantes/cobro/AndroidManifest.xml }
           - { id: notas, nombre: ChpNotas, manifiesto: app/variantes/notas/AndroidManifest.xml }
+          - { id: medir, nombre: ChpMedir, manifiesto: app/variantes/medir/AndroidManifest.xml }
     steps:
       - uses: actions/checkout@v4
       - name: Escoger el zip de ChpBar con el número más alto
@@ -41,7 +42,8 @@ jobs:
           test -f ${{ matrix.manifiesto }}
           cp ${{ matrix.manifiesto }} app/src/main/AndroidManifest.xml
           sed -i "s/applicationId 'co.jose.mibarra'/applicationId 'co.jose.chp${{ matrix.id }}'/" app/build.gradle
-          printf "\nandroid { packaging { jniLibs { excludes += ['**/libvosk.so', '**/libjnidispatch.so'] } } }\n" >> app/build.gradle
+          # el dictado sin internet (Vosk) solo lo necesita ChpMedir; a las demás se les quita para que pesen poco
+          if [ "${{ matrix.id }}" != "medir" ]; then printf "\nandroid { packaging { jniLibs { excludes += ['**/libvosk.so', '**/libjnidispatch.so'] } } }\n" >> app/build.gradle; fi
           grep -n applicationId app/build.gradle
       - uses: actions/setup-java@v4
         with:
